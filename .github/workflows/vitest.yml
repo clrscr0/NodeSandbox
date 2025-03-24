@@ -1,0 +1,29 @@
+name: Run Vitest Tests
+
+on:
+  push:
+    paths:
+      - 'VanillaJS-Vitest/**' # Trigger only on changes in this folder
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Or your preferred Node.js version
+          cache: 'npm'
+          cache-dependency-path: 'VanillaJS-Vitest/package-lock.json' # or yarn.lock
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: VanillaJS-Vitest
+
+      - name: Run Vitest tests
+        run: npm test
+        working-directory: VanillaJS-Vitest
